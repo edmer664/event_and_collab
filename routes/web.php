@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,22 +16,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('login');
 
 // route group admin
 Route::prefix('admin')->group(function () {
     // login
-    Route::get('/login', function () {
-        return 'Admin Login';
-    })->name('admin.login');
+    Route::get('/login', [AuthController::class,'adminLogin'])->name('admin.login');
 
 
-    Route::get('/dashboard', function () {
-        return 'Admin Dashboard';
+    // authenticated routes
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/dashboard',[])->name('admin.dashboard');
+        Route::get('/profile', function () {
+            return 'Admin Profile';
+        });
     });
-    Route::get('/profile', function () {
-        return 'Admin Profile';
-    });
+  
 });
 
 // route group user
@@ -40,11 +41,13 @@ Route::prefix('user')->group(function () {
         return 'User Login';
     })->name('user.login');
 
-    Route::get('/dashboard', function () {
-        return 'User Dashboard';
-    });
-    Route::get('/profile', function () {
-        return 'User Profile';
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/dashboard', function () {
+            return 'User Dashboard';
+        })->name('dashboard');
+        Route::get('/profile', function () {
+            return 'User Profile';
+        });
     });
 });
 
@@ -55,10 +58,15 @@ Route::prefix('organization')->group(function () {
         return 'Organization Login';
     })->name('organization.login');
 
-    Route::get('/dashboard', function () {
-        return 'Organization Dashboard';
-    });
-    Route::get('/profile', function () {
-        return 'Organization Profile';
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/dashboard', function () {
+            return 'Organization Dashboard';
+        });
+        Route::get('/profile', function () {
+            return 'Organization Profile';
+        });
     });
 });
+
+//auth
+Route::post('/authenticate', [AuthController::class,'authenticate'])->name('authenticate');
