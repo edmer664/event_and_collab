@@ -54,4 +54,14 @@ class User extends Authenticatable
     {
         return $this->last_name . ', ' . $this->first_name;
     }
+
+    // Relations
+    public function studentData()
+    {
+        if($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        return $this->hasOne(StudentData::class);
+    }
 }
