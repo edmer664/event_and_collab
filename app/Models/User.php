@@ -56,6 +56,15 @@ class User extends Authenticatable
         return $this->last_name . ', ' . $this->first_name;
     }
 
+    public function getOrganizationNameAttribute(): string
+    {
+        if($this->role !== 'organization') {
+            throw new \Exception('This user is not an organization.');
+        }
+
+        return $this->first_name;
+    }
+
     // Relations
     public function studentData()
     {
@@ -65,4 +74,6 @@ class User extends Authenticatable
 
         return $this->hasOne(StudentData::class);
     }
+
+
 }
