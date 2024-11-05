@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Admin Dashboard
+    Manage Organizations
 @endsection
 
 
@@ -11,22 +11,22 @@
         {{-- Page title --}}
         <section class="grid grid-cols-2 gap-4">
             <h1 class="text-3xl font-bold">
-                Welcome, {{ Auth::user()->name }}!
+                Manage Organizations
             </h1>
 
-            {{-- Action buttons --}}
+            {{-- Action buttons
             <div class="flex justify-end gap-6">
-                <a href="{{ route('admin.organizations') }}" class="btn btn-primary">
+                <a href="#" class="btn btn-primary">
                     Manage Organization
                 </a>
-                <a href="{{ route('admin.events') }}" class="btn btn-primary">
+                <a href="#" class="btn btn-primary">
                     Manage Events
                 </a>
-            </div>
+            </div> --}}
         </section>
 
         <section class="my-6">
-            @livewire('pending-events-table')
+            @livewire('organizations-table')
         </section>
     </main>
 @endsection

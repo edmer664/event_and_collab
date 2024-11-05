@@ -42,6 +42,8 @@ Route::prefix('admin')->group(function () {
     // authenticated routes
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/organizations', [AdminController::class, 'organizations'])->name('admin.organizations');
+        Route::get('/events', [AdminController::class, 'events'])->name('admin.events');
         Route::get('/profile', function () {
             return 'Admin Profile';
         });
