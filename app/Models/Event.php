@@ -53,6 +53,21 @@ class Event extends Model
         ]);
     }
 
+    public static function propose($data){
+        // make a data with pending status
+        $data['status'] = 'pending';
+        $data['user_id'] = auth()->id();
+        // save the data
+        $event = Event::create($data);
+        // send notification to admin
+        Notification::make()
+            ->title('Event Proposed')
+            ->info()
+            ->body("{$event->name} has been proposed.")
+            ->sendToDatabase(User::where('role', 'admin')->get())
+            ->send();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

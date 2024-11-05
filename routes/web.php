@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrganizationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,14 +71,10 @@ Route::prefix('user')->group(function () {
 // route group organization
 Route::prefix('organization')->group(function () {
     // login
-    Route::get('/login', function () {
-        return 'Organization Login';
-    })->name('organization.login')->middleware('guest');
+    Route::get('/login', [AuthController::class, 'organizationLogin'])->name('organization.login')->middleware('guest');
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/dashboard', function () {
-            return 'Organization Dashboard';
-        });
+        Route::get('/dashboard',[OrganizationController::class,'dashboard'])->name('organization.dashboard');
         Route::get('/profile', function () {
             return 'Organization Profile';
         });
