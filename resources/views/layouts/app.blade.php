@@ -13,6 +13,12 @@
     <title>@yield('title')</title>
     @filamentStyles
     @vite('resources/css/app.css')
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body class="antialiased">

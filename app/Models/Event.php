@@ -27,6 +27,7 @@ class Event extends Model
     {
         Notification::make()
             ->title('Event Approved')
+            ->success()
             ->body("{$this->name} has been approved.")
             ->sendToDatabase($this->user)
             ->send();
@@ -35,6 +36,20 @@ class Event extends Model
 
         $this->update([
             'status' => 'approved',
+        ]);
+    }
+
+    public function reject()
+    {
+        Notification::make()
+            ->title('Event Rejected')
+            ->danger()
+            ->body("{$this->name} has been rejected.")
+            ->sendToDatabase($this->user)
+            ->send();
+
+        $this->update([
+            'status' => 'rejected',
         ]);
     }
 
