@@ -17,12 +17,12 @@
 
 <body class="antialiased">
     <header class="bg-white shadow">
-        <div class="container mx-auto flex justify-between items-center py-2">
-            <img src="/logo.png" class="w-44 object-contain" alt="">
+        <div class="container flex items-center justify-between py-2 mx-auto">
+            <img src="/logo.png" class="object-contain w-44" alt="">
 
             {{-- search bar --}}
             <div>
-                <input type="text" class="border border-gray-200 rounded-lg px-4 py-2" placeholder="Search...">
+                <input type="text" class="px-4 py-2 border border-gray-200 rounded-lg" placeholder="Search...">
             </div>
 
             {{-- buttons --}}
@@ -47,8 +47,7 @@
 
     @yield('content')
 
-    <footer>
-    </footer>
+    <x-footer />
     @livewire('notifications')
 
     @filamentScripts
