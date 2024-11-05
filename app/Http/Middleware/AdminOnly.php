@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Laravel\Prompts\error;
+
 class AdminOnly
 {
     /**
@@ -16,7 +18,7 @@ class AdminOnly
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->role !== 'admin') {
-            return response('Unauthorized', 401);
+            abort(403);
         }
         return $next($request);
     }

@@ -16,7 +16,7 @@ class OrganizationOnly
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->role !== 'organization') {
-            return response('Unauthorized', 401);
+            abort(403);
         }
         return $next($request);
     }

@@ -16,7 +16,7 @@ class StudentOnly
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->role !== 'student') {
-            return response('Unauthorized', 401);
+            abort(403);
         }
         return $next($request);
     }
