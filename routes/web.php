@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function () {
 
 
     // authenticated routes
-    Route::group(['middleware' => ['admin','auth']], function () {
+    Route::group(['middleware' => ['admin', 'auth']], function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/organizations', [AdminController::class, 'organizations'])->name('admin.organizations');
         Route::get('/events', [AdminController::class, 'events'])->name('admin.events');
@@ -67,9 +67,12 @@ Route::prefix('student')->group(function () {
         });
         Route::get('/events', [StudentController::class, 'events'])
             ->name('student.events');
+        Route::get('/events/query', [StudentController::class, 'eventQuery'])
+            ->name('student.event.query');
         Route::get('/events/{event}', [StudentController::class, 'eventShow'])
             ->name('student.event.show');
-        
+
+
         Route::get('/organizations', [StudentController::class, 'organizations'])
             ->name('student.organizations');
         Route::get('/organizations/{organization}', [StudentController::class, 'organizationShow'])
@@ -77,7 +80,6 @@ Route::prefix('student')->group(function () {
 
         Route::get('/search', [StudentController::class, 'search'])
             ->name('student.search');
-        
     });
 });
 
