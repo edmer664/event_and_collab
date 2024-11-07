@@ -23,6 +23,10 @@ class Event extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
     public function approve()
     {
         Notification::make()

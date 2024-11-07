@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -16,6 +17,57 @@ class AuthController extends Controller
     public function studentLogin()
     {
         return view('login', ['role' => 'student']);
+    }
+
+    // student register
+    public function studentRegister()
+    {
+        return view('register');
+    }
+
+    // student store
+    public function studentStore(Request $request)
+    {
+        // validate request
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users',
+            'campus' => 'required',
+            'college' => 'required',
+            'program' => 'required',
+            'major' => 'required',
+            'guardian_name' => 'required',
+            'guardian_contact' => 'required',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
+
+        ]);
+
+        // create student
+        $student = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => 'student',
+        ]);
+
+        // create student data
+        $student->studentData()->create([
+            'campus' => $request->campus,
+            'college' => $request->college,
+            'program' => $request->program,
+            'major' => $request->major,
+            'guardian_name' => $request->guardian_name,
+            'guardian_contact' => $request->guardian_contact,
+        ]);
+
+        // login student
+        auth()->login($student);
+
+        // redirect student
+        return redirect()->route('student.dashboard');
     }
 
     // organization login
@@ -82,5 +134,4 @@ class AuthController extends Controller
         auth()->logout();
         return redirect()->route('login');
     }
-
 }

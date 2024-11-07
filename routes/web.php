@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +25,7 @@ Route::get('/dashboard', function () {
     if (auth()->user()->role == 'admin') {
         return redirect()->route('admin.dashboard');
     } elseif (auth()->user()->role == 'student') {
-        return redirect()->route('user.dashboard');
+        return redirect()->route('student.dashboard');
     } elseif (auth()->user()->role == 'organization') {
         return redirect()->route('organization.dashboard');
     }
@@ -41,7 +42,7 @@ Route::prefix('admin')->group(function () {
 
 
     // authenticated routes
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['admin','auth']], function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/organizations', [AdminController::class, 'organizations'])->name('admin.organizations');
         Route::get('/events', [AdminController::class, 'events'])->name('admin.events');
@@ -51,20 +52,21 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-// route group user
-Route::prefix('user')->group(function () {
+// route group student
+Route::prefix('student')->group(function () {
     // login
-    Route::get('/login', function () {
-        return 'User Login';
-    })->name('user.login')->middleware('guest');
+    Route::get('/login', [AuthController::class, 'studentLogin'])->name('student.login')->middleware('guest');
+    // register
+    Route::get('/register', [AuthController::class, 'studentRegister'])->name('student.register')->middleware('guest');
+    Route::post('/register', [AuthController::class, 'studentStore'])->name('student.store')->middleware('guest');
 
     Route::group(['middleware' => ['auth', 'student']], function () {
-        Route::get('/dashboard', function () {
-            return 'User Dashboard';
-        })->name('dashboard');
+        Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
         Route::get('/profile', function () {
             return 'User Profile';
         });
+        Route::get('/events', [StudentController::class, 'events'])
+            ->name('student.events');
     });
 });
 
@@ -74,7 +76,7 @@ Route::prefix('organization')->group(function () {
     Route::get('/login', [AuthController::class, 'organizationLogin'])->name('organization.login')->middleware('guest');
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/dashboard',[OrganizationController::class,'dashboard'])->name('organization.dashboard');
+        Route::get('/dashboard', [OrganizationController::class, 'dashboard'])->name('organization.dashboard');
         Route::get('/profile', function () {
             return 'Organization Profile';
         });

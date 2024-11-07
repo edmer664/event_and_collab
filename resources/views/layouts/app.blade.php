@@ -13,6 +13,7 @@
     <title>@yield('title')</title>
     @filamentStyles
     @vite('resources/css/app.css')
+    @stack('styles')
 
     <style>
         [x-cloak] {
@@ -27,9 +28,11 @@
             <img src="/logo.png" class="object-contain w-44" alt="">
 
             {{-- search bar --}}
-            <div>
-                <input type="text" class="px-4 py-2 border border-gray-200 rounded-lg" placeholder="Search...">
-            </div>
+            @if (auth()->user()->role == 'student')
+                <div>
+                    <input type="text" class="px-4 py-2 border border-gray-200 rounded-lg" placeholder="Search...">
+                </div>
+            @endif
 
             {{-- buttons --}}
             <div class="flex items-center space-x-6">
@@ -38,9 +41,8 @@
                 {{-- logout --}}
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
-                    <button type="submit" ><svg
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6">
+                    <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                         </svg>
@@ -58,6 +60,7 @@
 
     @filamentScripts
     @vite('resources/js/app.js')
+    @stack('scripts')
 </body>
 
 </html>

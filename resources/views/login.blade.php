@@ -5,16 +5,16 @@
 @endsection
 
 @section('content')
-    <main class="container mx-auto flex justify-center items-center min-h-screen">
-        <div class="max-w-md mx-auto bg-white px-6 py-12 rounded shadow-md flex flex-col items-center justify-center">
-            <h1 class="text-2xl font-bold text-center mb-8">{{ ucfirst($role) }} </h1>
+    <main class="container flex items-center justify-center min-h-screen mx-auto">
+        <div class="flex flex-col items-center justify-center max-w-md px-6 py-12 mx-auto bg-white rounded shadow-md">
+            <h1 class="mb-8 text-2xl font-bold text-center">{{ ucfirst($role) }} </h1>
             <img src="/logo.png" alt="Student organization collaboration and events management">
             <form class="w-full mt-8" method="POST" action="{{ route('authenticate') }}">
                 @csrf
                 @method('POST')
                 @if ($errors->any())
                     <div class="w-full mb-4">
-                        <ul class="list-disc list-inside text-red-600">
+                        <ul class="text-red-600 list-disc list-inside">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -25,6 +25,12 @@
                 <x-text-input name="password" label="Password" type="password" required />
                 <x-primary-button class="w-full" type="submit">Login</x-primary-button>
             </form>
+
+            @if ($role == 'student')
+                <div class="mt-4">
+                    Don&apos;t have an account? <a href="{{ route('student.register') }}" class="font-bold">Register</a>
+                </div>
+            @endif
         </div>
 
 

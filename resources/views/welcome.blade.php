@@ -15,14 +15,14 @@
 </head>
 
 <body class="bg-gray-100">
-    <main class="container mx-auto px-4 py-8">
+    <main class="container px-4 py-8 mx-auto">
         {{-- card --}}
-        <div class="flex flex-col bg-white rounded shadow-lg px-6 py-20 max-w-xl mx-auto mt-10">
+        <div class="flex flex-col max-w-xl px-6 py-20 mx-auto mt-10 bg-white rounded shadow-lg">
 
 
 
             <div>
-                <img src="/logo.png" alt="" class="mx-auto mt-4 w-full max-w-sm">
+                <img src="/logo.png" alt="" class="w-full max-w-sm mx-auto mt-4">
             </div>
 
             <h2>
@@ -41,7 +41,7 @@
                 </a>
 
                 {{-- selection 2 - user --}}
-                <a href="{{ route('user.login') }}">
+                <a href="{{ route('student.login') }}">
                     <div class="bg-[#841818] text-white p-2 rounded shadow-lg hover:bg-[#600000] transition-all duration-100">
                         <h2 class="text-xl font-semibold text-center">
                             Student
