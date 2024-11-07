@@ -28,15 +28,14 @@
             <h2 class="my-6 text-2xl font-bold">Latest Events</h2>
             <div class="grid grid-cols-3 gap-4">
                 @foreach ($events as $event)
-                    <div class="p-4 bg-white rounded-lg shadow">
+                <a href="{{ route('student.event.show', $event) }}">
+                    <div class="p-4 text-center transition-transform duration-300 ease-in-out bg-white rounded-lg shadow hover:scale-105">
                         <img src="{{Storage::url($event->cover_image)}}" alt="{{ $event->title }}" class="object-cover w-full h-48">
                         <h3 class="mt-2 text-xl font-bold">{{ $event->name }}</h3>
                         <p class="text-gray-500">{{ $event->date->format('M d, Y') }}</p>
-                        <div class="flex items-center justify-between mt-4">
-                            {{-- <a href="{{ route('events.show', $event) }}" class="px-4 py-2 text-white bg-blue-500 rounded-lg">View</a> --}}
-                            {{-- <span class="text-gray-500">{{ $event->created_at->diffForHumans() }}</span> --}}
-                        </div>
+                        
                     </div>
+                </a>
                 @endforeach
             </div>
             
@@ -53,15 +52,20 @@
             <h2 class="my-6 text-2xl font-bold">Organizations</h2>
             <div class="grid grid-cols-4 gap-4">
                 @foreach ($organizations as $organization)
-                    <div class="p-4 bg-white rounded-lg shadow">
+                <a href="{{ route('student.organization.show', $organization) }}">
+                    <div class="p-4 transition-all duration-300 ease-in-out bg-white rounded-lg shadow hover:scale-105">
                         <img src="{{Storage::url($organization->avatar)}}" alt="{{ $organization->name }}" class="object-contain w-full h-48">
                         <h3 class="mt-2 text-xl font-bold text-center">{{ $organization->name }}</h3>
                        
                     </div>
                 @endforeach
             </div>
-            
-            
+
+            <div class="flex items-center justify-center mt-6">
+                <a href="{{route('student.organizations')}}" class="btn btn-primary">
+                    View All 
+                </a>
+            </div>
         </section>
         
     </main>

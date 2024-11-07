@@ -18,4 +18,5 @@ class StudentController extends Controller
 
         return view('student.dashboard', compact('events', 'organizations'));
     }
+    
 }

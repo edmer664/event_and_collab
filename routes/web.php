@@ -67,6 +67,17 @@ Route::prefix('student')->group(function () {
         });
         Route::get('/events', [StudentController::class, 'events'])
             ->name('student.events');
+        Route::get('/events/{event}', [StudentController::class, 'eventShow'])
+            ->name('student.event.show');
+        
+        Route::get('/organizations', [StudentController::class, 'organizations'])
+            ->name('student.organizations');
+        Route::get('/organizations/{organization}', [StudentController::class, 'organizationShow'])
+            ->name('student.organization.show');
+
+        Route::get('/search', [StudentController::class, 'search'])
+            ->name('student.search');
+        
     });
 });
 
