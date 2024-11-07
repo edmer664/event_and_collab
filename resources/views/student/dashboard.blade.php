@@ -14,7 +14,7 @@
                 <div class="splide__track">
                     <ul class="splide__list">
                         @foreach ($events as $event)
-                            <li class="splide__slide">
+                            <li class="flex items-center justify-center splide__slide">
                                 <img src="{{Storage::url($event->cover_image)}}"
                                 alt="{{ $event->title }}" class="object-cover w-full h-96">
                             </li>
