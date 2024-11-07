@@ -90,6 +90,8 @@ Route::prefix('organization')->group(function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/dashboard', [OrganizationController::class, 'dashboard'])->name('organization.dashboard');
+        Route::get('/events/{event}', [OrganizationController::class, 'eventShow'])
+            ->name('organization.event.show');
         Route::get('/profile', function () {
             return 'Organization Profile';
         });
