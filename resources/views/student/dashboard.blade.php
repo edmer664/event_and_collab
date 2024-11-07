@@ -54,8 +54,8 @@
             <div class="grid grid-cols-4 gap-4">
                 @foreach ($organizations as $organization)
                     <div class="p-4 bg-white rounded-lg shadow">
-                        <img src="{{Storage::url($organization->logo)}}" alt="{{ $organization->name }}" class="object-cover w-full h-48">
-                        <h3 class="mt-2 text-xl font-bold">{{ $organization->name }}</h3>
+                        <img src="{{Storage::url($organization->avatar)}}" alt="{{ $organization->name }}" class="object-contain w-full h-48">
+                        <h3 class="mt-2 text-xl font-bold text-center">{{ $organization->name }}</h3>
                        
                     </div>
                 @endforeach
