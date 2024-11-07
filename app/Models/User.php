@@ -65,6 +65,26 @@ class User extends Authenticatable
         return $this->first_name;
     }
 
+    public function isReserved(Event $event): bool
+    {
+        if($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        // TODO: Implement this method
+        return true;
+    }
+
+    public function hasAttended(Event $event): bool
+    {
+        if($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        return true;
+    }
+
+
     // Relations
     public function studentData()
     {

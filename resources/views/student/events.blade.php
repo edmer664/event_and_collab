@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Student Dashboard
+    Show all events
 @endsection
 
 
