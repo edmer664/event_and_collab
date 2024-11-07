@@ -10,4 +10,9 @@ class OrganizationController extends Controller
     {
         return view('org.dashboard');
     }
+
+    public function eventShow()
+    {
+        return view('org.event-show');
+    }
 }

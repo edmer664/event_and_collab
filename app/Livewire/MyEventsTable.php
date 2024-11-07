@@ -21,6 +21,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 
@@ -62,20 +63,17 @@ class MyEventsTable extends Component implements HasForms, HasTable
             ])
             ->emptyStateHeading('No pending events found')
             ->filters([
-                // ...
+                // filter by status
+                SelectFilter::make('status')
+                    ->options([
+                        'approved' => 'Approved',
+                        'pending' => 'Pending',
+                        'rejected' => 'Rejected',
+                    ]),
             ])
             ->actions([
                 ViewAction::make()
-                    ->form([
-                        FileUpload::make('cover_image')
-                            ->image(),
-                        TextInput::make('name'),
-                        TextInput::make('description'),
-                        TextInput::make('date'),
-                        TextInput::make('start_time'),
-                        TextInput::make('end_time'),
-                        TextInput::make('location'),
-                    ]),
+                    ->url(fn($record) => route('organization.event.show', $record)),
 
             ])
             ->headerActions([
