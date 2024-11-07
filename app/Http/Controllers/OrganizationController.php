@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -11,8 +12,8 @@ class OrganizationController extends Controller
         return view('org.dashboard');
     }
 
-    public function eventShow()
+    public function eventShow(Event $event)
     {
-        return view('org.event-show');
+        return view('org.event-show', compact('event'));
     }
 }

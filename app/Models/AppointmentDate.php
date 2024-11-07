@@ -18,8 +18,18 @@ class AppointmentDate extends Model
         'event_id',
     ];
 
+    public function getCurrentCapacityAttribute()
+    {
+        return $this->appointmentReservations->where('status', '!=', 'cancelled')->count();
+    }
+
     public function event()
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function appointmentReservations()
+    {
+        return $this->hasMany(AppointmentReservation::class);
     }
 }

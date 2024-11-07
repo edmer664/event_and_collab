@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Event;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Livewire\Component;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -63,13 +64,20 @@ class EventsTable extends Component implements HasForms, HasTable
                 ViewAction::make()
                     ->form([
                         FileUpload::make('cover_image')
-                            ->image(),
-                        TextInput::make('name'),
-                        TextInput::make('description'),
-                        TextInput::make('date'),
-                        TextInput::make('start_time'),
-                        TextInput::make('end_time'),
-                        TextInput::make('location'),
+                            ->image()
+                            ->required(),
+                        TextInput::make('name')
+                            ->required(),
+                        RichEditor::make('description')
+                            ->required(),
+                        TextInput::make('date')
+                            ->required(),
+                        TextInput::make('start_time')
+                            ->required(),
+                        TextInput::make('end_time')
+                            ->required(),
+                        TextInput::make('location')
+                            ->required(),
                     ]),
 
             ])
