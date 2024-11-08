@@ -13,7 +13,17 @@ class EventRegistration extends Model
         'event_id',
         'user_id',
         'status',
+        'uid',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($eventRegistration) {
+            $eventRegistration->uid = uniqid();
+        });
+    }
 
     public function markAsAttended()
     {
