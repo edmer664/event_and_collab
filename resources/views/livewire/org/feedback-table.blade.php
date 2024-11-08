@@ -1,3 +1,4 @@
-<div>
-    {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
+
+<div class="mt-6">
+    {{ $this->table }}
 </div>
