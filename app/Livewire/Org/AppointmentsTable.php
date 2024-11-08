@@ -14,6 +14,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Table;
 use Filament\Forms;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Layout\Split;
 use Livewire\Component;
 
@@ -64,7 +65,10 @@ class AppointmentsTable extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->url(fn (AppointmentDate $record) => route('organization.appointment.show', $record)),
+                DeleteAction::make()
+                ->modalDescription('Are you sure you want to delete this appointment date? Reservation records will also be deleted.')
                 
             ])
             ->headerActions([
