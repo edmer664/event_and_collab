@@ -54,11 +54,12 @@ class AppointmentsTable extends Component implements HasForms, HasTable
                     TextColumn::make('status')
                         ->label('Status')
                         ->badge()
-                        ->colors([
-                            'approved' => 'success',
+                        ->color(fn (string $state): string => match ($state) {
                             'pending' => 'warning',
+                            'approved' => 'success',
                             'rejected' => 'danger',
-                        ]),
+                            default => 'gray',
+                        }),
                 ])
             ])
             ->filters([
