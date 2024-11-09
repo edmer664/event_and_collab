@@ -1,6 +1,6 @@
 <div>
     <x-filament-actions::group :actions="[
-        $this->downloadAction,
+        $this->showTicketAction,
         $this->giveFeedbackAction,
         $this->reserveAction,
     ]" />

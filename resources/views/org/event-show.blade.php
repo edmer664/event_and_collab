@@ -14,20 +14,24 @@
                 Manage Event
             </h1>
 
-        
+
         </section>
 
         <section class="my-6">
             @livewire('org.event-form', ['event' => $event])
         </section>
         <section class="my-6">
-            @livewire('org.appointments-table', ['event' => $event])
+            @livewire('org.reserved-confirmation-table', ['event' => $event])
         </section>
         <section class="my-6">
-            @livewire('org.feedback-table', ['event' => $event])
+            @livewire('org.appointments-table', ['event' => $event])
         </section>
         <section class="my-6">
             @livewire('org.attendance-table', ['event' => $event])
         </section>
+        <section class="my-6">
+            @livewire('org.feedback-table', ['event' => $event])
+        </section>
+
     </main>
 @endsection

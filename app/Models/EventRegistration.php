@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,13 @@ class EventRegistration extends Model
     {
         $this->status = 'attended';
         $this->save();
+
+        Notification::make()
+            ->title('Event Registration Marked as Attended')
+            ->success()
+            ->body("Event Registration for {$this->event->name} has been marked as attended.")
+            ->sendToDatabase($this->user)
+            ->send();
     }
 
     public function event()

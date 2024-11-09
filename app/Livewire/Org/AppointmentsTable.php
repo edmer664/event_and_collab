@@ -80,7 +80,8 @@ class AppointmentsTable extends Component implements HasForms, HasTable
                         Forms\Components\Timepicker::make('end_time')
                             ->required(),
                         Forms\Components\TextInput::make('capacity')
-                            ->required(),
+                            ->required()
+                            ->numeric(),
                     ])
                     ->action(function ($data) {
                         $data['event_id'] = $this->event->id;
@@ -88,6 +89,9 @@ class AppointmentsTable extends Component implements HasForms, HasTable
                         AppointmentDate::create($data);
                     })
             ])
+            ->heading(
+                'Appointment Dates'
+            )
             ->bulkActions([
                 // ...
             ]);

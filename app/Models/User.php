@@ -101,6 +101,17 @@ class User extends Authenticatable
             ->exists();
     }
 
+    public function hasGivenFeedback(Event $event): bool
+    {
+        if ($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        return $this->feedbacks()
+            ->where('event_id', $event->id)
+            ->exists();
+    }
+
 
     // Relations
     public function studentData()

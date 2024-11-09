@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\AppointmentDate;
 use App\Models\AppointmentReservation;
+use App\Models\Feedback;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -27,21 +29,52 @@ class EventActionButtons extends Component implements HasForms, HasActions
         $this->event = $event;
     }
 
-    public function downloadAction(): Action
+    public function showTicketAction(): Action
     {
-        return Action::make('download_ticket')
-            ->label('Download Ticket')
-            ->requiresConfirmation()
+        return Action::make('showTicket')
+            ->label('Show Ticket ID')
+            ->modalSubmitAction(false)
             ->disabled(fn() => !auth()->user()->isReservationConfirmed($this->event))
-            ->icon('heroicon-o-ticket');
+            ->icon('heroicon-o-ticket')
+            ->modalContent(view('modal.show-ticket', ['uid' => auth()->user()->eventRegistrations->where('event_id', $this->event->id)->first()->uid]));
     }
 
     public function giveFeedbackAction(): Action
     {
-        return Action::make('give_feedback')
+        return Action::make('giveFeedback')
             ->label('Give Feedback')
             ->icon('heroicon-o-chat-bubble-bottom-center-text')
-            ->disabled(fn() => !auth()->user()->hasAttended($this->event));
+            ->disabled(fn() => !auth()->user()->hasAttended($this->event) || auth()->user()->hasGivenFeedback($this->event))
+            ->form([
+                TextInput::make('question_01')
+                    ->label(Feedback::QUESTIONS['question_01'])
+                    ->required(),
+                TextInput::make('question_02')
+                    ->label(Feedback::QUESTIONS['question_02'])
+                    ->required(),
+                TextInput::make('question_03')
+                    ->label(Feedback::QUESTIONS['question_03'])
+                    ->required(),
+                TextInput::make('question_04')
+                    ->label(Feedback::QUESTIONS['question_04'])
+                    ->required(),
+                Select::make('question_05')
+                    ->label(Feedback::QUESTIONS['question_05'])
+                    ->options([
+                        'yes' => 'Yes',
+                        'no' => 'No',
+                    ])
+                    ->required(),
+                TextInput::make('comment')
+                    ->label('Additional Comments')
+            ])
+            ->action(function ($data) {
+                $data['user_id'] = auth()->id();
+                $data['event_id'] = $this->event->id;
+                Feedback::create($data);
+
+            })
+            ->model(Feedback::class);
     }
 
     public function reserveAction(): Action

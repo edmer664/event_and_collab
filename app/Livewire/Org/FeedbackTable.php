@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Org;
 
+use App\Models\Event;
 use App\Models\Feedback;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -20,10 +21,21 @@ class FeedbackTable extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    public Event $event;
+
+    public function mount(Event $event)
+    {
+        $this->event = $event;
+    }
+
     public function table(Table $table): Table
     {
         return $table
-            ->query(Feedback::query())
+            ->query(
+                Feedback::query()
+                    ->where('event_id', $this->event->id)
+            )
+            ->heading('Feedbacks')
             ->columns([
                 TextColumn::make('user.name')
                     ->label('User')

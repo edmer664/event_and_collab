@@ -14,6 +14,7 @@
     @filamentStyles
     @vite('resources/css/app.css')
     @stack('styles')
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
     <style>
         [x-cloak] {

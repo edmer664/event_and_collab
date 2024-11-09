@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,8 +27,22 @@ class Feedback extends Model
         'question_04',
         'question_05',
         'comment',
-        
+
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($feedback) {
+            Notification::make()
+                ->body('Feedback received for ' . $feedback->event->name)
+                ->title('Feedback Received')
+                ->info()
+                ->send()
+                ->sendToDatabase(collect([$feedback->event->user, $feedback->user]));
+        });
+    }
 
     public function getQuestion($question)
     {

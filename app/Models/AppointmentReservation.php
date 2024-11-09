@@ -42,7 +42,7 @@ class AppointmentReservation extends Model
         $this->save();
 
         EventRegistration::create([
-            'event_id' => $this->appointmentDate->event->id,
+            'event_id' => $this->event_id,
             'user_id' => $this->user->id,
             'status' => 'registered',
         ]);
