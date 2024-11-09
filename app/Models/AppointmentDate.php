@@ -18,6 +18,12 @@ class AppointmentDate extends Model
         'event_id',
     ];
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
+   
+
     public function getCurrentCapacityAttribute()
     {
         return $this->appointmentReservations->where('status', '!=', 'cancelled')->count();

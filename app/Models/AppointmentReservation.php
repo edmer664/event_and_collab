@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +13,27 @@ class AppointmentReservation extends Model
     protected $fillable = [
         'appointment_date_id',
         'user_id',
+        'event_id',
         'payment_status',
         'year_and_section',
         'proof_of_payment',
         'mode_of_payment',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($appointmentReservation) {
+            Notification::make()
+                ->title('Appointment Reservation Created')
+                ->success()
+                ->body("Appointment Reservation for {$appointmentReservation->event->name} has been created.")
+                ->sendToDatabase(collect([$appointmentReservation->event->user, $appointmentReservation->user]))
+                ->send();
+        });
+    }
+ 
 
 
     public function markAsPaid()
@@ -33,6 +49,8 @@ class AppointmentReservation extends Model
         
     }
 
+   
+
     public function appointmentDate()
     {
         return $this->belongsTo(AppointmentDate::class);
@@ -43,9 +61,9 @@ class AppointmentReservation extends Model
         return $this->belongsTo(User::class);
     }
 
-    // get event_id from appointment_date_id
+    // get event_id 
     public function event()
     {
-        return $this->belongsToThrough(Event::class, AppointmentDate::class);
+        return $this->belongsTo(Event::class);
     }
 }

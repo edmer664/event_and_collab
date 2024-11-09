@@ -82,4 +82,18 @@ class Event extends Model
         return $this->hasMany(AppointmentDate::class);
     }
   
+    public function eventRegistrations()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
+    public function appointmentReservations()
+    {
+        return $this->hasMany(AppointmentReservation::class);
+    }
 }

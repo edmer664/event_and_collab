@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function getOrganizationNameAttribute(): string
     {
-        if($this->role !== 'organization') {
+        if ($this->role !== 'organization') {
             throw new \Exception('This user is not an organization.');
         }
 
@@ -67,33 +67,84 @@ class User extends Authenticatable
 
     public function isReserved(Event $event): bool
     {
-        if($this->role !== 'student') {
+        if ($this->role !== 'student') {
             throw new \Exception('This user is not a student.');
         }
 
-        // TODO: Implement this method
-        return true;
+       
+        return $this->appointmentReservations()
+            ->where('event_id', $event->id)
+            ->exists();
+    }
+
+    public function isReservationConfirmed(Event $event): bool
+    {
+        if ($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        return $this->appointmentReservations()
+            ->where('event_id', $event->id)
+            ->where('payment_status', 'paid')
+            ->exists();
     }
 
     public function hasAttended(Event $event): bool
     {
-        if($this->role !== 'student') {
+        if ($this->role !== 'student') {
             throw new \Exception('This user is not a student.');
         }
 
-        return true;
+        return $this->eventRegistrations()
+            ->where('event_id', $event->id)
+            ->where('status', 'attended')
+            ->exists();
     }
 
 
     // Relations
     public function studentData()
     {
-        if($this->role !== 'student') {
+        if ($this->role !== 'student') {
             throw new \Exception('This user is not a student.');
         }
 
         return $this->hasOne(StudentData::class);
     }
 
+    public function appointmentReservations()
+    {
+        if ($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
 
+        return $this->hasMany(AppointmentReservation::class);
+    }
+
+    public function eventRegistrations()
+    {
+        if ($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    public function feedbacks()
+    {
+        if ($this->role !== 'student') {
+            throw new \Exception('This user is not a student.');
+        }
+
+        return $this->hasMany(Feedback::class);
+    }
+
+    public function events()
+    {
+        if ($this->role !== 'organization') {
+            throw new \Exception('This user is not an organization.');
+        }
+
+        return $this->hasMany(Event::class);
+    }
 }
