@@ -13,9 +13,11 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Table;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\SelectColumn;
 use Livewire\Component;
 
 class AppointmentsTable extends Component implements HasForms, HasTable
@@ -51,26 +53,22 @@ class AppointmentsTable extends Component implements HasForms, HasTable
                             ->label('End Time')
                             ->date('h:i A'),
                     ]),
-                    TextColumn::make('status')
-                        ->label('Status')
-                        ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'pending' => 'warning',
-                            'approved' => 'success',
-                            'rejected' => 'danger',
-                            default => 'gray',
-                        }),
+                    SelectColumn::make('status')
+                        ->options([
+                            'pending' => 'Pending',
+                            'closed' => 'Closed',
+                        ])
+
                 ])
             ])
             ->filters([
                 // ...
             ])
             ->actions([
-                ViewAction::make()
-                    ->url(fn (AppointmentDate $record) => route('organization.appointment.show', $record)),
+
                 DeleteAction::make()
-                ->modalDescription('Are you sure you want to delete this appointment date? Reservation records will also be deleted.')
-                
+                    ->modalDescription('Are you sure you want to delete this appointment date? Reservation records will also be deleted.')
+
             ])
             ->headerActions([
                 CreateAction::make()
