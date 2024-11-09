@@ -11,7 +11,9 @@ class StudentController extends Controller
     public function dashboard()
     {
         // pick 5 latest events
-        $events = Event::orderBy('created_at', 'desc')->take(10)->get();
+        $events = Event::orderBy('created_at', 'desc')
+            ->where('status', 'approved')
+            ->take(10)->get();
 
         // get 8 latest organizations
         $organizations = User::where('role', 'organization')->orderBy('created_at', 'desc')->take(8)->get();
@@ -37,7 +39,9 @@ class StudentController extends Controller
             'end' => 'required|date',
         ]);
 
-        $events = Event::whereBetween('date', [$request->start, $request->end])->get();
+        $events = Event::whereBetween('date', [$request->start, $request->end])
+            ->where('status', 'approved')
+            ->get();
 
         // return event object json 
         // convert name to title, date to start
@@ -52,7 +56,5 @@ class StudentController extends Controller
             ];
         }
         return response()->json($data);
-
     }
-    
 }
