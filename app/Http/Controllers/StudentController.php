@@ -60,4 +60,16 @@ class StudentController extends Controller
         }
         return response()->json($data);
     }
+
+
+    public function organizationShow(User $organization)
+    {
+        return view('student.organization-show', compact('organization'));
+    }
+
+    public function organizations()
+    {
+        $organizations = User::where('role', 'organization')->get();
+        return view('student.organizations', compact('organizations'));
+    }
 }
