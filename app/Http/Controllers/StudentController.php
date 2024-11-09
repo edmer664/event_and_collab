@@ -28,6 +28,9 @@ class StudentController extends Controller
 
     public function eventShow(Event $event)
     {
+        if ($event->status !== 'approved') {
+            abort(404);
+        }
         return view('student.event-show', compact('event'));
     }
 
