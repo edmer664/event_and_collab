@@ -9,12 +9,12 @@
 @section('content')
     <main class="container mx-auto my-10">
         @if (auth()->user()->isReservationConfirmed($event))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <div class="relative px-4 py-3 mb-4 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
                 <strong class="font-bold">Success!</strong>
                 <span class="block sm:inline">You have successfully reserved a slot for this event.</span>
             </div>
         @elseif (auth()->user()->isReserved($event))
-            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <div class="relative px-4 py-3 mb-4 text-yellow-700 bg-yellow-100 border border-yellow-400 rounded" role="alert">
                 <strong class="font-bold">Pending!</strong>
                 <span class="block sm:inline">Your reservation is pending approval.</span>
             </div>
@@ -25,7 +25,7 @@
 
         <article class="flex flex-col items-center gap-6">
             {{-- cover image --}}
-            <img src="{{ $event->cover_url }}" alt="{{ $event->name }}"
+            <img src="{{ Storage::url($event->cover_image) }}" alt="{{ $event->name }}"
                 class="object-contain w-full rounded-lg shadow-lg h-96">
 
             {{-- event details --}}
